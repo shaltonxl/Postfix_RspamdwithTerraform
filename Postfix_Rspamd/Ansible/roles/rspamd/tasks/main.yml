@@ -1,0 +1,55 @@
+
+- name: Packages Installieren
+  apt:
+    state: latest
+    pkg:
+      - rspamd
+      - redis-server
+    update_cache: yes
+
+
+
+- name: classifier-bayes.conf kopieren
+  copy:
+    src: files/classifier-bayes.conf
+    dest: /etc/rspamd/local.d/classifier-bayes.conf
+  tags: rspamd
+
+  
+- name: Copy logging.inc
+  copy:
+    src: files/logging.inc
+    dest: /etc/rspamd/local.d/logging.inc
+  tags: rspamd
+
+- name: milter_headers.conf kopieren
+  copy:
+    src: files/milter_headers.conf
+    dest: /etc/rspamd/local.d/milter_headers.conf
+  tags: rspamd
+
+
+- name: Copy worker-normal.inc
+  copy:
+    src: files/worker-normal.inc
+    dest: /etc/rspamd/local.d/worker-normal-inc
+  tags: rspamd
+
+- name: Copy worker-proxy.inc
+  copy:
+    src: files/worker-proxy.inc
+    dest: /etc/rspamd/local.d/worker-proxy.inc
+  tags: rspamd
+
+- name: redis.conf kopieren
+  copy:
+    src: files/redis.conf
+    dest: /etc/rspamd/local.d/redis.conf
+    owner: _rspamd
+    group: _rspamd
+    mode: "0440"
+  tags: redis
+
+- name: Reload Rspamd
+  command: systemctl reload rspamd
+  tags: rspamd

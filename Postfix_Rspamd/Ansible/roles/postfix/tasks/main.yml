@@ -1,0 +1,26 @@
+---
+- name: Postfix Installieren
+  apt:
+    name:
+          - postfix
+          - mailutils
+    state: present
+    force_apt_get: yes    
+  tags: postfix     
+
+- name : Warte 
+  pause: 
+      seconds: 60
+  tags: postfix
+        
+
+- name: Postfix auf mailserver-1 konfigurieren
+  template:
+        src: templates/main.cf.j2
+        dest: /etc/postfix/main.cf
+  when: inventory_hostname == "mailserver-1"
+  tags: postfix
+
+- name: Reload Postfix
+  command: systemctl reload postfix
+  tags: postfix

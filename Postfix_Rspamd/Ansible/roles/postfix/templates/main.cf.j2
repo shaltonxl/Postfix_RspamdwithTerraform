@@ -1,0 +1,6 @@
+myhostname = {{ inventory_hostname }}
+mydestination = {{ inventory_hostname }}, localhost
+
+relayhost = [mailserver-2.test.local]
+
+smtpd_recipient_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination

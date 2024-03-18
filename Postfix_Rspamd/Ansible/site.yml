@@ -1,0 +1,9 @@
+---
+# This is the top-level playbook
+
+- hosts: all
+  become: yes
+  roles:
+    - general
+    - postfix
+    - rspamd 
